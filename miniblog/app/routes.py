@@ -1,4 +1,4 @@
-from app import app, db,mail
+from app import app, db, mail
 from flask import Flask, request, render_template, redirect, url_for, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import User, Post
@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from urllib.parse import urlsplit
 from datetime import datetime, timezone
 from flask_mail import Message
+from langdetect import detect, LangDetectException
 
 
 @app.before_request
@@ -21,20 +22,22 @@ def before_request():
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    print(current_user.is_authenticated)
+    # print(current_user.is_authenticated)
     if request.method == 'POST':
         post = request.form.get('post')
         if len(post.strip()) == 0:
             flash('Post content cannot be empty.')
             return redirect(url_for('index'))
-        posts = Post(body=post, author=current_user)
+        try:
+            language = detect(post)
+        except LangDetectException:
+            language = ''
+        posts = Post(body=post, author=current_user, language=language)
         db.session.add(posts)
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('index'))
-    # posts = current_user.following_posts().all()
-    # return render_template("index.html", title='Home Page', posts=posts)
-    page = request.args.get('page', 1, type=int) #defult當前頁碼為1
+    page = request.args.get('page', 1, type=int)  # defult當前頁碼為1
     # 撈出有追蹤的用戶的貼文後，進行分頁
     posts = current_user.following_posts().paginate(
         page=page, per_page=app.config['POSTS_PER_PAGE'], error_out=False)
@@ -82,6 +85,8 @@ def register():
     return render_template('register.html', title='Register')
 
 # 登入
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -110,16 +115,16 @@ def logout():
     return redirect(url_for('login'))
 
 
-#忘記密碼(不需寄驗證信版)
+# 忘記密碼(不需寄驗證信版)
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
     if request.method == 'POST':
-        email = request.form.get('email') 
+        email = request.form.get('email')
         user = User.query.filter_by(email=email).first()
         if not user:
             flash('No account found with that email.')
             return redirect(url_for('reset_password'))
-        
+
         password_new = request.form.get('password_new')
         password_check = request.form.get('password_check')
 
@@ -135,6 +140,8 @@ def reset_password():
     return render_template('reset_password.html', title='Reset Password')
 
 # 個人頁面
+
+
 @app.route('/user/<username>')
 @login_required
 def user(username):
@@ -171,6 +178,8 @@ def edit_profile():
                            about_me=current_user.about_me)
 
 # 追蹤
+
+
 @app.route('/follow/<username>', methods=['POST'])
 @login_required
 def follow(username):
@@ -190,6 +199,8 @@ def follow(username):
         return redirect(url_for('index'))
 
 # 退追蹤
+
+
 @app.route('/unfollow/<username>', methods=['POST'])
 @login_required
 def unfollow(username):
@@ -207,7 +218,7 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
-    
+
 
 # 測試db是否連線成功
 @app.route('/test_db')
