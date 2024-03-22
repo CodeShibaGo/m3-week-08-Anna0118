@@ -139,7 +139,8 @@ def reset_password():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(user_id=user.id).all()
+    posts = Post.query.filter_by(user_id=user.id).order_by(
+        Post.timestamp.desc()).all()
     return render_template('user.html', user=user, posts=posts)
 
 
