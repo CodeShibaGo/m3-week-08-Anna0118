@@ -52,7 +52,9 @@ def index():
                            prev_url=prev_url)
 
 # 全部貼文
-@app.route('/explore')
+
+
+@app.route('/explore', methods=['GET', 'POST'])
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
