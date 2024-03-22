@@ -1,5 +1,5 @@
 from app import app, db, mail
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash,g
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import User, Post
 from flask_login import login_user, logout_user, current_user, login_required
@@ -7,6 +7,7 @@ from urllib.parse import urlsplit
 from datetime import datetime, timezone
 from flask_mail import Message
 from langdetect import detect, LangDetectException
+from flask_babel import _, get_locale
 
 
 @app.before_request
@@ -15,6 +16,7 @@ def before_request():
         current_user.last_seen = datetime.now(timezone.utc)
         #  不需要add，因為數據已存在，current_user會自動去追蹤
         db.session.commit()
+    g.locale = str(get_locale())
 
 
 # 首頁
@@ -35,7 +37,7 @@ def index():
         posts = Post(body=post, author=current_user, language=language)
         db.session.add(posts)
         db.session.commit()
-        flash('Your post is now live!')
+        flash(_('Your post is now live!'))
         return redirect(url_for('index'))
     page = request.args.get('page', 1, type=int)  # defult當前頁碼為1
     # 撈出有追蹤的用戶的貼文後，進行分頁
