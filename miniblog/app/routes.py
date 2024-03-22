@@ -6,9 +6,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from urllib.parse import urlsplit
 from datetime import datetime, timezone
 from flask_mail import Message
-from langdetect import detect, LangDetectException
 from flask_babel import _, get_locale
-
+from langdetect import detect, LangDetectException
 
 @app.before_request
 def before_request():
