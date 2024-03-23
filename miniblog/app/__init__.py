@@ -1,4 +1,3 @@
-# from app import routes, models
 from flask import Flask, request
 from dotenv import load_dotenv
 from config import Config
@@ -32,4 +31,4 @@ bootstrap = Bootstrap(app)
 moment = Moment(app)
 babel = Babel(app, locale_selector=get_locale)
 
-from app import routes, models, cli
+from app import routes, models, cli, errors

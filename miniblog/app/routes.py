@@ -238,7 +238,7 @@ def test_db():
 @app.route('/message')
 def send_message():
     msg = Message('Hello', sender=app.config['MAIL_SERVER'],
-                  recipients=['bellachu351@gmail.com'])
+                  recipients=['annachu0988@gmail.com'])
     msg.body = "Hello Flask message sent from Flask-Mail"
     mail.send(msg)
     return 'You Send Mail by Flask-Mail Success!!'

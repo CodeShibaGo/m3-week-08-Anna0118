@@ -7,7 +7,8 @@ class Config:
     MAIL_SERVER = os.getenv('MAIL_SERVER')
     MAIL_PROT = os.getenv('MAIL_PROT')
     MAIL_USE_TLS = os.getenv('MAIL_USE_TLS')
+    MAIL_USE_TLS = os.getenv('MAIL_USE_SSL')
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    LANGUAGES = ['en', 'zh']
+    LANGUAGES = ['en', 'zh_TW', 'es']
     MS_TRANSLATOR_KEY = os.getenv('MS_TRANSLATOR_KEY')
