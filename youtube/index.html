@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- icon -->
+    <link rel="icon" href="./img/youtube-brands.svg" />
+    <title>Youtube Search</title>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Search<span> Videos</span></h1>
+            <p>Search all Youtube videos</p>
+        </header>
+        <section>
+            <form id="search-form" class="search-form" name="search-form">
+                <div class="fieldcontainer">
+                    <input type="search" id="query" class="search-field" placeholder="Search Youtube..." />
+                    <input type="submit" name="search-btn" id="search-btn" value="" />
+                </div>
+            </form>
+            <ul id="results"></ul>
+            <div id="buttons"></div>
+        </section>
+        <footer>
+            <p>Copyright &copy; 2021, All Right Reserved</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
