@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Edit Profile</h1>
+    <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ username }}">
+            {% if username_errors %}
+            {% for error in username_errors %}
+            <div class="text-danger">[{{ error }}]</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="about_me" class="form-label">About me:</label>
+            <textarea id="about_me" name="about_me" class="form-control" rows="4">{{ about_me }}</textarea>
+            {% if about_me_errors %}
+            {% for error in about_me_errors %}
+            <div class="text-danger">[{{ error }}]</div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

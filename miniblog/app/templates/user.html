@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ user.avatar(128) }}" class="img-fluid" alt="User Avatar">
+            </div>
+            <div class="col-md-8">
+                <h1>User: {{ user.username }}</h1>
+                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+                {% if user.last_seen %}<p>Last seen on: {{ moment(user.last_seen).format('LLL') }}</p>{% endif %}
+                <p>{{ user.followers_count() }} followers, {{ user.following_count() }} following.</p>
+                {% if user.username == current_user.username %}
+                <p><a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Edit your profile</a></p>
+                {% elif not current_user.is_following(user) %}
+                <form action="{{ url_for('follow', username=user.username) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <button type="submit" class="btn btn-primary">Follow</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('unfollow', username=user.username) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <button type="submit" class="btn btn-danger">Unfollow</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+{% for post in posts %}
+{% include '_post.html' %}
+{% endfor %}
+{% endblock %}
