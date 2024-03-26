@@ -3,10 +3,10 @@
 
 ## JS Projects
 
-|  #  |    Project     | Demo | 完成   |
-| :-: | :-: | :------------:  | :---: |
-| 01  | Youtube API 串接 | Demo |      |
-| 02  | 匯率轉換 API 串接 | Demo |     |
+|  #  |    Project     | Demo | 
+| :-: | :-: | :------------:  | 
+| 01  | Youtube API 串接 | [Demo](https://anna0118.github.io/m3-week-08-Anna0118/youtube/) |  
+| 02  | 匯率轉換 API 串接 | [Demo](https://anna0118.github.io/m3-week-08-Anna0118/exchange/) |  
 
 ## MiniBlog 實作清單
 
